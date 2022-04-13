@@ -3,7 +3,7 @@ from discord.ext import commands
 
 
 def token():
-    return "OTUzMDE1MjYyMzQ3Njc3Nzk2.Yi-aoA.FF5DHvdoFQ1EK6MBBPZIpr5MKtI"
+    return ""
 
 
 def merge(message):
