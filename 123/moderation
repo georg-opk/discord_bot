@@ -1,0 +1,108 @@
+import discord
+from discord.ext import commands
+
+
+def token():
+    return "OTUzMDE1MjYyMzQ3Njc3Nzk2.Yi-aoA.FF5DHvdoFQ1EK6MBBPZIpr5MKtI"
+
+
+def merge(message):
+    s = ''
+
+    for i in message:
+        s += i + ' '
+
+    return s
+
+
+bot = commands.Bot(command_prefix='!')
+
+
+@bot.command(name='ping', help='Проверка подключения бота к серверу')
+async def ping(ctx):
+    await ctx.reply('Бот подключён!')
+
+
+@bot.command(name='stop_bot', help='Доступно только создателю. Принудительная остановка бота')
+@commands.is_owner()
+async def stop_bot(ctx):
+    await ctx.reply("Бот был остановлен")
+    exit(0)
+
+
+# МОДЕРАЦИЯ
+@bot.command(name='mute', help='Запретить писать участнику')  # КОМАНДА НЕ ГОТОВА
+@commands.has_permissions(administrator=True)
+async def mute(ctx, member: discord.Member, *reason):
+    if len(reason) > 0:
+        await member.send(f"Вы были замучены по причине: {merge(reason)}")
+        await ctx.reply(f"{member} был замучен по причине: {merge(reason)}")
+    else:
+        await member.send(f"Вы были замучены")
+        await ctx.reply(f"{member} был замучен")
+    role = discord.utils.get(member.guild.roles, name='Muted')
+    await ctx.add_roles(member, role)
+    embed = discord.Embed(title="User Muted!",
+                          description="**{0}** was muted by **{1}**!".format(member, ctx.message.author),
+                          color=0xff00f6)
+    await ctx.send(embed=embed)
+
+
+@bot.command(name='unmute', help='Разрешить писать участнику')  # КОМАНДА НЕ ГОТОВА
+@commands.has_permissions(administrator=True)
+async def unmute(ctx, member: discord.Member):
+    await ctx.reply(f"{member} был размучен")
+
+
+@bot.command(name='kick', help='Выгнать участника')
+@commands.has_permissions(administrator=True)
+async def kick(ctx, member: discord.Member, *reason):
+    if len(reason) > 0:
+        await member.send(f"Вы были кикнуты по причине: {merge(reason)}")
+        await ctx.reply(f"{member} был кикнут по причине: {merge(reason)}")
+    else:
+        await member.send(f"Вы были кикнуты")
+        await ctx.reply(f"{member} был кикнут")
+    await member.kick(reason=merge(reason))
+
+
+@bot.command(name='ban', help='Забанить участника')
+@commands.has_permissions(administrator=True)
+async def ban(ctx, member: discord.Member, *reason):
+    if len(reason) > 0:
+        await ctx.reply(f"{member} был забанен по причине: {merge(reason)}")
+        await member.send(f"Вы были забанены по причине: {merge(reason)}")
+    else:
+        await member.send(f"Вы были забанены")
+        await ctx.reply(f"{member} был забанен")
+    await member.ban(reason=merge(reason))
+
+
+@bot.command(name='unban', help='Разбанить участника через ID')
+@commands.has_permissions(administrator=True)
+async def unban(ctx, id: int):
+    user = await bot.fetch_user(id)
+    await ctx.guild.unban(user)
+    await ctx.reply(f"Был разбанен")
+
+
+# КРАШ КОМАНДЫ
+@bot.command(name='flood', help='Команда для циклической отправки однотипных сообщений')
+@commands.is_owner()
+async def flood(ctx, number_of_repetitions, *message):
+    s = ''
+    number_of_repetitions = int(number_of_repetitions)
+    for i in message:
+        s = s + i + " "
+    while number_of_repetitions > 0:
+        await ctx.send(s)
+        number_of_repetitions -= 1
+
+
+@bot.command(name='rename_channels', help='Переименовывает все каналы в заданное название')
+@commands.is_owner()
+async def rename_channels(ctx, *message):
+    m = merge(message)
+
+
+bot.run(token())
