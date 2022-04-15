@@ -5,10 +5,10 @@ import youtube_dl
 import datetime
 import asyncio
 # Get the API token from the .env file.
-DISCORD_TOKEN = "OTU1Njc5ODAzMzAwNzk4NDc3.YjlMLA.5GmXnzFlpeQlsTAqbxIqefEzMiE"
+DISCORD_TOKEN = ""
 intents = discord.Intents().all()
 client = discord.Client(intents=intents)
-bot = commands.Bot(command_prefix='-',intents=intents)
+bot = commands.Bot(command_prefix='-', intents=intents)
 pause = 0
 #music - start
 youtube_dl.utils.bug_reports_message = lambda: ''
