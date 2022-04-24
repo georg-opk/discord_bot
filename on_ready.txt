@@ -1,0 +1,12 @@
+@bot.event
+async def on_ready():
+    giff = ['Bon_jiorno', 'cowboy bepop', 'hellsing', 'minion', 'ora', 'reich']
+    for guild in bot.guilds:
+        for channel in guild.text_channels:
+            if str(channel) == "test1":
+                ember = discord.Embed(title='Состояние')
+                ember.add_field(name='Состояние бота:', value='Бот активирован!')
+                ember.add_field(name='Привествую пользователей!', value='HELLO!')
+                await channel.send(embed=ember)
+                await channel.send(file=discord.File(choice(giff) + '.gif'))
+        print('Подключён к {}\n Количество участников : {}'.format(guild.name, guild.member_count))

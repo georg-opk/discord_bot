@@ -1,0 +1,13 @@
+@bot.command(name='unban', help='Разбанить участника через ID')
+@commands.has_permissions(administrator=True)
+async def unban(ctx, id):
+    times_start = datetime.today()
+    emb = discord.Embed(title=f'**Разбан**')
+    emb.add_field(name='Действие:', value='Участник был разбанен', inline=False)
+    emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+
+    id = int(id)
+    user = await bot.fetch_user(id)
+
+    await ctx.guild.unban(user)
+    await ctx.reply(embed=emb)

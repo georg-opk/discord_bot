@@ -1,0 +1,14 @@
+@bot.command(name='skip', help='останавливает песню и удаляет её из очереди')
+async def skip(ctx):
+    times_start = datetime.today()
+    emb_error = discord.Embed(title=f'**Я ничего не проигрываю**')
+    emb_error.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_playing():
+        emb = discord.Embed(title=f'**Композиция больше не играет**')
+        emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+        await ctx.reply(embed=emb)
+        await voice_client.stop()
+    else:
+        await ctx.reply(embed=emb_error)

@@ -1,0 +1,16 @@
+@bot.command(name='join', help='присоединяется к voice канналу, в котором находится пользователь')
+async def join(ctx):
+    times_start = datetime.today()
+    emb = discord.Embed(title=f'**Я присоединился**')
+    emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+
+    emb1 = discord.Embed(title=f'**Вы не в голосовом канале**')
+    emb1.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+
+    if not ctx.message.author.voice:
+        await ctx.reply(embed=emb1)
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+        await ctx.reply(embed=emb)
+    await channel.connect()

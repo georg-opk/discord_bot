@@ -1,0 +1,26 @@
+@bot.command(help="Статистика сервера")
+    @commands.has_permissions(administrator=True)
+    async def where_am_i(ctx):
+        owner = str(ctx.guild.owner)
+        region = str(ctx.guild.region)
+        guild_id = str(ctx.guild.id)
+        memberCount = str(ctx.guild.member_count)
+        icon = str(ctx.guild.icon_url)
+        desc = ctx.guild.description
+
+        embed = discord.Embed(
+            title=ctx.guild.name + " Информация о сервере",
+            description=desc,
+            color=discord.Color.blue()
+        )
+        embed.set_thumbnail(url=icon)
+        embed.add_field(name="Создатель:", value=owner, inline=True)
+        embed.add_field(name="ID сервера:", value=guild_id, inline=True)
+        embed.add_field(name="Регион", value=region, inline=True)
+        embed.add_field(name="Количество участников:", value=memberCount, inline=True)
+        await ctx.send(embed=embed)
+        members = []
+        async for member in ctx.guild.fetch_members(limit=150):
+            await ctx.send(
+                'Ник : {}\t Статус: : {}\n Зашёл {}'.format(member.display_name, str(member.status),
+                                                                str(member.joined_at)))

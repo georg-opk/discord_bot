@@ -1,0 +1,30 @@
+@bot.command(name='ban', help='')
+@commands.has_permissions(administrator=True)
+async def ban(ctx, member: discord.Member, *reason):
+    times_start = datetime.today()
+
+    if len(reason) > 0:
+        emb = discord.Embed(title=f'**Бан**')
+        emb.add_field(name='**Выдал:**', value=ctx.author.mention, inline=False)
+        emb.add_field(name='**Нарушитель:**', value=member.mention, inline=False)
+        emb.add_field(name='**ID нарушителя:**', value=member.id, inline=False)
+        emb.add_field(name='**Причина:**', value=merge(reason), inline=False)
+        emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+        await ctx.reply(embed=emb)
+        try:
+            await member.send(embed=emb)
+        except:
+            pass
+    else:
+        emb = discord.Embed(title=f'** Бан **')
+        emb.add_field(name='**Выдал:**', value=ctx.author.mention, inline=False)
+        emb.add_field(name='**Нарушитель:**', value=member.mention, inline=False)
+        emb.add_field(name='**ID нарушителя:**', value=member.id, inline=False)
+        emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+        await ctx.reply(embed=emb)
+        try:
+            await member.send(embed=emb)
+        except:
+            pass
+
+    await member.ban(reason=merge(reason))

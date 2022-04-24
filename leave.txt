@@ -1,0 +1,18 @@
+@bot.command(name='leave', help='отключает бота от каннала')
+async def leave(ctx):
+    times_start = datetime.today()
+    emb_error = discord.Embed(title=f'**Я не был присоединён к каналу**')
+    emb_error.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+
+    try:
+        leav = ['Отключаюсь', "Я работать?", "Всем пока", "Я устал, я... ухожу", "Всем до скорого!", "Adios"]
+        voice_client = ctx.message.guild.voice_client
+        if voice_client.is_connected():
+            emb = discord.Embed(title=f'**{choice(leav)}**')
+            emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+            await voice_client.disconnect()
+            await ctx.reply(embed=emb)
+        else:
+            await ctx.reply(embed=emb_error)
+    except:
+        await ctx.reply(embed=emb_error)

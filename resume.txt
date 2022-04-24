@@ -1,0 +1,14 @@
+@bot.command(name='resume', help='возобновляет песню')
+async def resume(ctx):
+    times_start = datetime.today()
+    emb_error = discord.Embed(title=f'**Я ничего не проигрываю**')
+    emb_error.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_paused():
+        emb = discord.Embed(title=f'**Продолжаю проигрывание композиции**')
+        emb.set_footer(text=f'Дата: {times_start.strftime("%Y-%m-%d, %H:%M:%S")}')
+        await ctx.reply(embed=emb)
+        await voice_client.resume()
+    else:
+        await ctx.reply(embed=emb_error)

@@ -1,0 +1,6 @@
+@bot.command()
+async def about_me(ctx):
+    # оформить в виде вложения
+    text = "Создан пользователями cascader13#2153 и Georg_opk#1488"
+    embed = discord.Embed(title="Я бот", description=f"{text}")
+    await ctx.reply(embed=embed)
