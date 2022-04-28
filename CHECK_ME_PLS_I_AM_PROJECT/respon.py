@@ -1,21 +1,14 @@
 import random
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import youtube_dl
 from datetime import datetime
 import asyncio
 from random import choice
 import requests
-###### DELETE
-###### DELETE
-###### DELETE
-###### DELETE
-DISCORD_TOKEN = "delete_OTU1Njc5ODAzMzAwNzk4NDc3._delete_YjlMLA.oa3O2hSlEKmY4yysF4v93u-0RuE_delete"
-###### DELETE
-###### DELETE
-###### DELETE
-###### DELETE
-###### DELETE
+import os, platform
+
+DISCORD_TOKEN = "OTU1Njc5ODAzMzAwNzk4NDc3.YjlMLA.oa3O2hSlEKmY4yysF4v93u-0RuE"
 intents = discord.Intents().all()
 client = discord.Client(intents=intents)
 bot = commands.Bot(command_prefix='-', intents=intents)
@@ -74,7 +67,7 @@ async def on_ready():
     giff = ['Bon_jiorno', 'cowboy bepop', 'hellsing', 'minion', 'ora', 'reich']
     for guild in bot.guilds:
         for channel in guild.text_channels:
-            if str(channel) == "test1":
+            if str(channel) == "общее":
                 ember = discord.Embed(title='Состояние')
                 ember.add_field(name='Состояние бота:', value='Бот активирован!')
                 ember.add_field(name='Привествую пользователей!', value='HELLO!')
@@ -512,10 +505,9 @@ class social_interact(commands.Cog):
 
     @bot.command(name='random', help='Рандомное число в диапазоне, который задал пользователь')
     async def join(ctx, a, b):
-        ember = discord.Embed(title='Рандомное число от {} до {}'.format(a,b), inline=False)
+        ember = discord.Embed(title='Рандомное число от {} до {}'.format(a, b), inline=False)
         ember.add_field(name="Ответ", value=random.randrange(int(a), int(b)))
         await ctx.reply(embed=ember)
-
 
 
 class music(commands.Cog):
@@ -677,4 +669,15 @@ async def flood(ctx, number_of_repetitions, *message):
 
 
 if __name__ == "__main__":
+    try:
+        import nacl
+    except ImportError:
+        try:
+            if platform.system().lower().startswith('win'):
+                os.system("pip install pynacl")
+            else:
+                os.system("pip3 install pynacl")
+        except Exception as e:
+            print("Error:", e)
+            exit()
     bot.run(DISCORD_TOKEN)
